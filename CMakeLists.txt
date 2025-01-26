@@ -1,13 +1,13 @@
 ﻿cmake_minimum_required (VERSION 3.17)
 
-project (search_engine)
+project (search_engine VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 add_subdirectory(nlohmann_json)
 
-add_executable (search_engine search_engine.cpp ConverterJSON.cpp ConverterJSON.h)
-
-target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
+add_subdirectory(src)

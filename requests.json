@@ -1,8 +1,7 @@
 {
-    "requests":[
-        "some words..",
-        "some words..",
-        "some words..",
-        "some words.."
+    "requests": [
+        "tiger fox",
+        "wolf bird",
+        "monkey"
     ]
 }

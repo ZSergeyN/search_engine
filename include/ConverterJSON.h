@@ -15,9 +15,12 @@ private:
     int timeForUpdate = 10000;
     int maxResponses = 5;
     std::vector<std::string> resourcesFiles;
+    std::vector<std::string> textDocuments;
+    std::vector<std::string> requests;
 
     public:
     ConverterJSON() = default;
+
     void loadConfigFile();
     /*
      *  Метод получения содержимого файлов

@@ -3,7 +3,7 @@
 #include "nlohmann/json.hpp"
 
 void ConverterJSON::loadConfigFile() {
-    std::ifstream configFile("config.json");
+	std::ifstream configFile("config.json");
 	nlohmann::json data;
 	resourcesFiles.clear();
 	if (configFile.is_open()) {
@@ -54,6 +54,7 @@ std::vector<std::string> ConverterJSON::GetTextDocuments() {
 			textFile.close();
 		}
 		else {
+			textDocuments.push_back("");
 			std::cout << "file: " << it << " is missing" << std::endl;
 		}
 	}

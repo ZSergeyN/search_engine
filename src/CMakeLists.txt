@@ -1,8 +1,8 @@
-﻿cmake_minimum_required (VERSION 3.17)
+﻿cmake_minimum_required (VERSION 3.24)
 
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
-add_executable(${PROJECT_NAME} search_engine.cpp ConverterJSON.cpp ${INCLUDE_DIR}/ConverterJSON.h)
+add_executable(${PROJECT_NAME} search_engine.cpp ConverterJSON.cpp ${INCLUDE_DIR}/ConverterJSON.h InvertedIndex.cpp ${INCLUDE_DIR}/InvertedIndex.h)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 

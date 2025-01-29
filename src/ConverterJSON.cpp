@@ -1,5 +1,7 @@
 #include "ConverterJSON.h"
 
+#include <iostream>
+#include <fstream>
 #include "nlohmann/json.hpp"
 
 void ConverterJSON::loadConfigFile() {
@@ -31,6 +33,7 @@ void ConverterJSON::loadConfigFile() {
 			std::cerr << "Config file is empty" << std::endl;
 		}
 		configFile.close();
+		std::cout << "\tConverterJSON::loadConfigFile - finish" << std::endl;
 	}
 	else {
 		std::cerr << "Config file is missing" << std::endl;
@@ -87,6 +90,7 @@ std::vector<std::string> ConverterJSON::GetRequests() {
 	else {
 		std::cout << "Requests file is missing" << std::endl;
 	}
+	std::cout << "\tConverterJSON::GetRequests - finish" << std::endl;
 	return requests;
 }
 

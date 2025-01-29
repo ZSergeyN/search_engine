@@ -1,12 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
-
-
-
 
 class ConverterJSON {
 private:
@@ -20,28 +15,31 @@ private:
 
 public:
     ConverterJSON() = default;
-
+    /*
+     The method reads data from a file config.json
+     returns parameters nameSearchEngin, versionSearchEngine,
+     timeForUpdate, maxResponses
+    */
     void loadConfigFile();
     /*
-     *  Метод получения содержимого файлов
-     *  @return Возвращает список с содержимым файлов перечисленных
-     *  в config.json
+     *  The method of getting the contents of files
+     *  @return a list with the contents of the files listed
+     *  in config.json
      */
     std::vector<std::string> GetTextDocuments();
-
     /*
-    * Метод считывает поле max_responses для определения предельного
-    * количества ответов на один запрос
+    * The method reads the field max_responses to determine the maximum number
+    * of responses per request
     * @return
     */
     int GetResponsesLimit();
     /*
-    * Метод получения запросов из файла requests.json
-    * @return возвращает список запросов из файла requests.json
+    * Method of getting requests from a file requests.json
+    * @return list of requests from the file requests.json
     */
     std::vector<std::string> GetRequests();
     /*
-    * Положить в файл answers.json результаты поисковых запросов
+    * Put it in a file answers.json search query results
     */
     void putAnswers(std::vector<std::vector<std::pair<int, float>>> answers);
 };

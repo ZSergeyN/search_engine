@@ -1,4 +1,5 @@
 ﻿#include "ConverterJSON.h"
+#include "InvertedIndex.h"
 #include "gtest/gtest.h"
 
 TEST(sample_test_case, sample_test)
@@ -12,4 +13,7 @@ int main()
 	files->loadConfigFile();
 	files->GetTextDocuments();
 	files->GetRequests();
+
+	auto index = new InvertedIndex();
+	index->UpdateDocumentBase(files->GetTextDocuments());
 }

@@ -28,7 +28,7 @@ public:
     /*
     Adds a word and the number of occurrences in the document text to the frequency dictionary.
     */
-    void UpdateFrequencyDictionary();
+    void UpdateFrequencyDictionary(const size_t& docId, const std::string& doc);
     /*
     * The method determines the number of occurrences of the word word in the uploaded document database
     * @param word the word, whose frequency of occurrence must be determined

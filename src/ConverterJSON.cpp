@@ -96,8 +96,19 @@ std::vector<std::string> ConverterJSON::GetRequests() {
 
 void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> answers) {
 	std::ofstream answerFile("answers.json");
-	for (auto& it : answers) {
-		//to do
+	nlohmann::json answerDictionary;int count = 0;
+	for (auto& currentAnswer : answers) {
+		answerDictionary["answers"]["request" + std::to_string(count)]["result"] = !currentAnswer.empty();
+		if (!currentAnswer.empty())
+		{
+			for (auto& it : currentAnswer)
+			{
+				answerDictionary["answers"]["request" + std::to_string(count)][(currentAnswer.size() > 1 ? "relevance" : "")]["docid"] = it.first;
+				answerDictionary["answers"]["request" + std::to_string(count)][(currentAnswer.size() > 1 ? "relevance" : "")]["rank"] = it.second;
+			}
+		}
+		++count;
 	}
+	answerFile << answerDictionary;
 	answerFile.close();
 }

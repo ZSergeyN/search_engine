@@ -6,7 +6,7 @@
 #include <thread>
 #include <mutex>
 
-static std::mutex mutexAccessDictionary; // access to index map
+std::mutex mutexAccessDictionary; // access to index map
 
 void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
     if (!input_docs.empty())
@@ -75,5 +75,13 @@ void InvertedIndex::UpdateFrequencyDictionary(const size_t &docId, const std::st
 }
 
 std::vector<Entry> InvertedIndex::GetWordCount(const std::string& word) {
-    return freq_dictionary.at(word);
+    if(freq_dictionary.count(word))
+    {
+        return freq_dictionary.at(word);
+    }
+    else {
+        std::vector<Entry> frequency;
+        return frequency;
+    }
+    
 }

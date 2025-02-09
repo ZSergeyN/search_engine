@@ -30,7 +30,7 @@ void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
         }
         std::cout << std::endl;
         }*/
-        std::cout << "\tInvertedIndex::UpdateDocumentBase - finish" << std::endl;
+        //std::cout << "\tInvertedIndex::UpdateDocumentBase - finish" << std::endl;
     }
     else {
         std::cerr << "Indexing: no content in docs content base" << std::endl;
@@ -71,7 +71,7 @@ void InvertedIndex::UpdateFrequencyDictionary(const size_t &docId, const std::st
 
     mutexAccessDictionary.unlock();
 
-    std::cout << "\tInvertedIndex::UpdateFrequencyDictionary - finish" << std::endl;
+    //std::cout << "\tInvertedIndex::UpdateFrequencyDictionary - finish" << std::endl;
 }
 
 std::vector<Entry> InvertedIndex::GetWordCount(const std::string& word) {

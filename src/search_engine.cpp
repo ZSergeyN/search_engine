@@ -1,12 +1,9 @@
 ﻿#include "ConverterJSON.h"
 #include "InvertedIndex.h"
 #include "SearchServer.h"
-#include "gtest/gtest.h"
 
-TEST(sample_test_case, sample_test)
-{
-	EXPECT_EQ(1, 1);
-}
+#include <stdexcept>
+
 
 int main()
 {
@@ -34,7 +31,7 @@ int main()
 			{
 				throw std::overflow_error("Doc ID is larger than INT_MAX");
 			}
-			result.emplace_back(std::pair(it.doc_id, static_cast<int>(it.rank)));
+			result.emplace_back(std::pair(static_cast<int>(it.doc_id), it.rank));
 		}
 		answers.push_back(result);
 	}

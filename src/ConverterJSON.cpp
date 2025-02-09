@@ -33,7 +33,7 @@ void ConverterJSON::loadConfigFile() {
 			std::cerr << "Config file is empty" << std::endl;
 		}
 		configFile.close();
-		std::cout << "\tConverterJSON::loadConfigFile - finish" << std::endl;
+		//std::cout << "\tConverterJSON::loadConfigFile - finish" << std::endl;
 	}
 	else {
 		std::cerr << "Config file is missing" << std::endl;
@@ -95,20 +95,51 @@ std::vector<std::string> ConverterJSON::GetRequests() {
 }
 
 void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> answers) {
-	std::ofstream answerFile("answers.json");
-	nlohmann::json answerDictionary;int count = 0;
+	nlohmann::json answerDictionary;
+	int count = 1;
 	for (auto& currentAnswer : answers) {
-		answerDictionary["answers"]["request" + std::to_string(count)]["result"] = !currentAnswer.empty();
+		std::string requestNumber = "request";
+		if(count < 10)	// Creating a request field name
+		{
+			requestNumber += "00";
+		}
+		else if(count < 100)
+		{
+			requestNumber += "0";
+		}
+		requestNumber += std::to_string(count);
+		answerDictionary["answers"][requestNumber]["result"] = !currentAnswer.empty();	// The presence of a search result that is stored as a boolean
 		if (!currentAnswer.empty())
 		{
-			for (auto& it : currentAnswer)
+			if(currentAnswer.size() > 1 && GetResponsesLimit() > 1)
 			{
-				answerDictionary["answers"]["request" + std::to_string(count)][(currentAnswer.size() > 1 ? "relevance" : "")]["docid"] = it.first;
-				answerDictionary["answers"]["request" + std::to_string(count)][(currentAnswer.size() > 1 ? "relevance" : "")]["rank"] = it.second;
+				auto currentDocResultArray = nlohmann::json::array();	// Creating an array of search results values
+				int response = 1;
+				for (auto& it : currentAnswer)
+				{
+					if (response > GetResponsesLimit())	// Checking the number of responses to a request
+					{
+						break;
+					}
+					auto currentDocResult = nlohmann::json::object();
+					currentDocResult["docid"] = it.first;
+					currentDocResult["rank"] = it.second;
+					currentDocResultArray.push_back(currentDocResult);
+					answerDictionary["answers"][requestNumber]["relevance"] = currentDocResultArray;
+					++response;
+				}
 			}
+			else // If the search value is single
+			{
+				answerDictionary["answers"][requestNumber]["docId"] = currentAnswer[0].first;
+				answerDictionary["answers"][requestNumber]["rank"] = currentAnswer[0].second;
+			}
+			
 		}
 		++count;
 	}
+	std::ofstream answerFile("answers.json", std::ios_base::trunc);
 	answerFile << answerDictionary;
 	answerFile.close();
+	//std::cout << "\tConverterJSON::putAnswers - finish" << std::endl;
 }

@@ -12,16 +12,16 @@ std::vector<std::vector<RelativeIndex>> SearchServer::Search(const std::vector<s
     {
         float absoluteRelevanceMax = 0;
         uniqueWordsQuery.clear();
-        std::cout << std::endl << queryId << " request: " << std::endl;
         SeparatRequest(query);
         SortWords();
         searchResult.emplace_back(SearchDocs(absoluteRelevanceMax));
         SortDocs(searchResult.back(), absoluteRelevanceMax);
         // Print requests
-        for (auto &it : searchResult.back())
+        /*std::cout << std::endl << queryId << " request: " << std::endl;
+        for (auto& it : searchResult.back())
         {
             std::cout << "\t" << it.doc_id << " - " << it.rank << " | " << absoluteRelevanceMax << std::endl;
-        }
+        }*/
         ++queryId;
     }
     return searchResult;
@@ -54,13 +54,13 @@ void SearchServer::SeparatRequest(const std::string &queries_text)
             }
             else
             {
-                std::cout << "\tnot found: " << wordInQuery << std::endl;
+                //std::cout << "\tnot found: " << wordInQuery << std::endl;
             }
             
             
         }
     }
-    std::cout << "\tSearchServer::SeparatRequest - finish" << std::endl;
+    //std::cout << "\tSearchServer::SeparatRequest - finish" << std::endl;
 }
 
 void SearchServer::SortWords()
@@ -76,7 +76,7 @@ void SearchServer::SortWords()
     std::sort(begin(uniqueWordsQuery), end(uniqueWordsQuery),
               [](const FoundWord &left, const FoundWord &right)
               { return left.frequency < right.frequency; });
-    std::cout << "\tSearchServer::SortWords - finish " << std::endl;
+    //std::cout << "\tSearchServer::SortWords - finish " << std::endl;
 }
 
 std::vector<RelativeIndex> SearchServer::SearchDocs(float& absoluteRelevanceMax)
@@ -115,7 +115,7 @@ std::vector<RelativeIndex> SearchServer::SearchDocs(float& absoluteRelevanceMax)
             }
         }
     }
-    std::cout << "\tSearchServer::SearchDocs - finish" << std::endl;
+    //std::cout << "\tSearchServer::SearchDocs - finish" << std::endl;
     return searchDos;
 }
 
@@ -129,5 +129,5 @@ void SearchServer::SortDocs(std::vector<RelativeIndex> &result, const float& abs
     std::sort(begin(result), end(result),
               [](const RelativeIndex &left, const RelativeIndex &right)
               { return left.rank > right.rank; });
-    std::cout << "\tSearchServer::SortDocs - finish " << std::endl;
+    //std::cout << "\tSearchServer::SortDocs - finish " << std::endl;
 }

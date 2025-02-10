@@ -7,24 +7,24 @@
 
 ## Description | Описание
 
-![GitHub author](https://img.shields.io/badge/ENG-blue)<br>
+![](https://img.shields.io/badge/ENG-blue)<br>
  A console application that searches for queries in documents.
 The application is configured using JSON files.<br>
 
-![GitHub author](https://img.shields.io/badge/RUS-red)<br>
+![](https://img.shields.io/badge/RUS-red)<br>
  Консольное приложение, которое выполняет поиск запросов в документах.
 Настройка приложения выполняется с помощью файлов формата JSON.<br>
 
 ## Technologies | Технологии
-![GitHub author](https://img.shields.io/badge/C%2B%2B-17-green?style=for-the-badge)<br>
+![](https://img.shields.io/badge/C%2B%2B-17-green?style=for-the-badge)<br>
 
-![GitHub author](https://img.shields.io/badge/CMake-3.24-green?style=for-the-badge)<br>
+![](https://img.shields.io/badge/CMake-3.24-green?style=for-the-badge)<br>
 <https://cmake.org/><br>
 
-![GitHub author](https://img.shields.io/badge/nlohmann_json-3.11.3-green?style=for-the-badge)<br>
+![](https://img.shields.io/badge/nlohmann_json-3.11.3-green?style=for-the-badge)<br>
 <https://github.com/nlohmann/json><br>
 
-![GitHub author](https://img.shields.io/badge/GoogleTest-1.15.2-green?style=for-the-badge)<br>
+![](https://img.shields.io/badge/GoogleTest-1.15.2-green?style=for-the-badge)<br>
 <https://github.com/google/googletest><br>
 
 ## Files | Файлы
@@ -49,7 +49,11 @@ The application is configured using JSON files.<br>
   * rank — search ranking | поисковый рейтинг
 
 ## Building & Running | Создание и Запуск
-Step 1: Build the project | Создайть проект<br>
+
+#### Edit files | Редактировать файлы<br>
+`.\requests.json`, `.\config.json`, `.\answers.json` and `.\resources` <br>
+
+#### Build the project | Создайть проект<br>
   * If you use Visual Studio compiler | Если вы используете компилятор Visual Studi<br>
   
     * For x64 version | Для версии x64<br>
@@ -63,8 +67,5 @@ Step 1: Build the project | Создайть проект<br>
 `cmake -S . -B "build"`<br>
 `cmake --build build --config Release`<br>
 
-Step 2: Edit files | Редактировать файлы<br>
-`.\bin\requests.json`, `.\bin\config.json`, `.\bin\answers.json` and `.\bin\resources` folder<br>
-
-Step 3: Run the application | Запустить приложение<br>
-`.\bin\Release\search_engine`<br>
+#### Run the application | Запустить приложение<br>
+`.\build\src\search_engine.exe`<br>

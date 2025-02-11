@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
-add_subdirectory(nlohmann_json)
-
 add_subdirectory(src)
 
 add_subdirectory(tests)

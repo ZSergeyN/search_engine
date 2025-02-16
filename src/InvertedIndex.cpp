@@ -13,24 +13,19 @@ void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs) {
     {
         docs.clear();
         freq_dictionary.clear();    // Prepare (clean) frequency dictionary
-        size_t docId = 0;
+        std::vector<size_t> docId(input_docs.size());   // Vector with the document number for creating threads
+        size_t num = 0;
+        std::vector<std::thread> threadDoc;
         for (auto& it : input_docs) {
             docs.emplace_back(it);
-            //Print doc
-            //std::cout << it << std::endl;
-            std::thread threadDoc([this, docId, it]() {UpdateFrequencyDictionary(docId, it);});
-            threadDoc.join();   // or detach???????????
-            ++docId;
+            docId[num] = num;
+            threadDoc.emplace_back();
+            threadDoc.back() = std::thread(&InvertedIndex::UpdateFrequencyDictionary, this, std::cref(docId[num]), std::cref(it));
+            ++num;
         }
-        //Print frequency dictionary
-        /*for (auto& it : freq_dictionary) {
-        std::cout << "index[ " << it.first << " ] = ";
-        for (auto& val : it.second) {
-            std::cout << "{ " << val.doc_id << "; " << val.count << " } ";
+        for (auto& threads : threadDoc) {
+            threads.join();
         }
-        std::cout << std::endl;
-        }*/
-        //std::cout << "\tInvertedIndex::UpdateDocumentBase - finish" << std::endl;
     }
     else {
         std::cerr << "Indexing: no content in docs content base" << std::endl;
@@ -70,8 +65,6 @@ void InvertedIndex::UpdateFrequencyDictionary(const size_t &docId, const std::st
     }
 
     mutexAccessDictionary.unlock();
-
-    //std::cout << "\tInvertedIndex::UpdateFrequencyDictionary - finish" << std::endl;
 }
 
 std::vector<Entry> InvertedIndex::GetWordCount(const std::string& word) {

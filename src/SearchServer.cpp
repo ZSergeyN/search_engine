@@ -6,7 +6,6 @@
 
 std::vector<std::vector<RelativeIndex>> SearchServer::Search(const std::vector<std::string> &queries_input)
 {
-    //std::vector<std::vector<RelativeIndex>> searchResult;
     int queryId = 0;
     for (auto &query : queries_input)
     {
@@ -16,12 +15,6 @@ std::vector<std::vector<RelativeIndex>> SearchServer::Search(const std::vector<s
         SortWords();
         searchResult.emplace_back(SearchDocs(absoluteRelevanceMax));
         SortDocs(searchResult.back(), absoluteRelevanceMax);
-        // Print requests
-        /*std::cout << std::endl << queryId << " request: " << std::endl;
-        for (auto& it : searchResult.back())
-        {
-            std::cout << "\t" << it.doc_id << " - " << it.rank << " | " << absoluteRelevanceMax << std::endl;
-        }*/
         ++queryId;
     }
     return searchResult;
@@ -52,15 +45,8 @@ void SearchServer::SeparatRequest(const std::string &queries_text)
             {
                 uniqueWordsQuery.emplace_back(uniqueWord); // Creating a vector of unique words with frequency
             }
-            else
-            {
-                //std::cout << "\tnot found: " << wordInQuery << std::endl;
-            }
-            
-            
         }
     }
-    //std::cout << "\tSearchServer::SeparatRequest - finish" << std::endl;
 }
 
 void SearchServer::SortWords()
@@ -76,47 +62,49 @@ void SearchServer::SortWords()
     std::sort(begin(uniqueWordsQuery), end(uniqueWordsQuery),
               [](const FoundWord &left, const FoundWord &right)
               { return left.frequency < right.frequency; });
-    //std::cout << "\tSearchServer::SortWords - finish " << std::endl;
 }
 
 std::vector<RelativeIndex> SearchServer::SearchDocs(float& absoluteRelevanceMax)
 {
-    std::vector<RelativeIndex> searchDos;
+    std::vector<RelativeIndex> searchDoc;
     if(uniqueWordsQuery.size() > 0) // If these words are not found in the documents
     {
-        for(auto& foundDoc : uniqueWordsQuery[0].freq_dictionary)
-        {
-            bool addDoc = true; // If one word is found
-            for(int i = 1; i < uniqueWordsQuery.size(); ++i)
+        for (int y = 0; y < uniqueWordsQuery.size() - 1; ++y) {
+            for (auto& foundDoc : uniqueWordsQuery[y].freq_dictionary)
             {
-                addDoc = false;
-                for(auto& it : uniqueWordsQuery[i].freq_dictionary)
-                {
-                    if(foundDoc.doc_id == it.doc_id)
+                for (int i = y + 1; i < uniqueWordsQuery.size(); ++i)
                     {
-                        foundDoc.count += it.count;
-                        addDoc = true;
+                        for (auto& it : uniqueWordsQuery[i].freq_dictionary)
+                        {
+                            if (foundDoc.doc_id == it.doc_id)
+                            {
+                                foundDoc.count += it.count;
+                                break;
+                            }
+                        }
+                    }
+                bool addDoc = true;
+                for (auto& it : searchDoc)
+                {
+                    if (it.doc_id == foundDoc.doc_id)   // If one word is found
+                    {
+                        addDoc = false;
                         break;
                     }
                 }
-                if(!addDoc) // If there are no identical documents
+                if (addDoc && responsesLimit > 0)   // If this document is missing and the response limit is not exceeded
                 {
-                    foundDoc.count = 0;
-                    break;
+                    if (absoluteRelevanceMax < foundDoc.count) absoluteRelevanceMax = foundDoc.count;    // Finding absolute relevance
+                    RelativeIndex newAnswer;
+                    newAnswer.doc_id = foundDoc.doc_id;
+                    newAnswer.rank = foundDoc.count;
+                    searchDoc.emplace_back(newAnswer);  // Add an element to the result vector
+                    --responsesLimit;
                 }
-            }
-            if(absoluteRelevanceMax < foundDoc.count) absoluteRelevanceMax = foundDoc.count;    // Finding absolute relevance
-            if(addDoc)
-            {
-                RelativeIndex newAnswer;
-                newAnswer.doc_id = foundDoc.doc_id;
-                newAnswer.rank = foundDoc.count;
-                searchDos.emplace_back(newAnswer);
             }
         }
     }
-    //std::cout << "\tSearchServer::SearchDocs - finish" << std::endl;
-    return searchDos;
+    return searchDoc;
 }
 
 void SearchServer::SortDocs(std::vector<RelativeIndex> &result, const float& absoluteRelevanceMax)
@@ -129,5 +117,9 @@ void SearchServer::SortDocs(std::vector<RelativeIndex> &result, const float& abs
     std::sort(begin(result), end(result),
               [](const RelativeIndex &left, const RelativeIndex &right)
               { return left.rank > right.rank; });
-    //std::cout << "\tSearchServer::SortDocs - finish " << std::endl;
+}
+
+void SearchServer::takeResponsesLimit(const int& _responsesLimit)
+{
+    responsesLimit = _responsesLimit;
 }

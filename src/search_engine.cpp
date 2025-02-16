@@ -17,6 +17,7 @@ int main()
 
 	auto words = new SearchServer(*index);
 	std::vector<std::vector<RelativeIndex>> searchResult;
+	words->takeResponsesLimit(files->GetResponsesLimit());
 	searchResult = words->Search(files->GetRequests());
 	
 	std::vector<std::vector<std::pair<int, float>>> answers;

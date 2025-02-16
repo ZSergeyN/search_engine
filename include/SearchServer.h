@@ -26,6 +26,7 @@ private:
     InvertedIndex _index;
     std::vector<FoundWord> uniqueWordsQuery;
     std::vector<std::vector<RelativeIndex>> searchResult;
+    int responsesLimit = 5;
 public:
     /**
     * @param idx a reference to the class is passed to the class constructor
@@ -72,4 +73,6 @@ public:
     *  and the maximum absolute relevance
     */
     void SortDocs(std::vector<RelativeIndex> &result, const float& absoluteRelevanceMax);
+
+    void takeResponsesLimit(const int& _responsesLimit);
     };

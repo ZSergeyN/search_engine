@@ -24,16 +24,11 @@ void ConverterJSON::loadConfigFile() {
 			}
 			std::cout << "name: " << nameSearchEngine << " version: " << versionSearchEngine << " time update: " << timeForUpdate <<
 				" max_responses: " << maxResponses << std::endl;
-			/*std::cout << "Resources:" << std::endl;
-			for (auto& it : resourcesFiles) {
-				std::cout << it << std::endl;
-			}*/
 		}
 		else {
 			std::cerr << "Config file is empty" << std::endl;
 		}
 		configFile.close();
-		//std::cout << "\tConverterJSON::loadConfigFile - finish" << std::endl;
 	}
 	else {
 		std::cerr << "Config file is missing" << std::endl;
@@ -78,9 +73,6 @@ std::vector<std::string> ConverterJSON::GetRequests() {
 			for (auto& it : data["requests"]) {
 				requests.emplace_back(it);
 			}
-			/*for (auto& it : data["requests"]) {
-				std::cout << it << std::endl;
-			}*/
 		}
 		else {
 			std::cout << "Requests file is empty" << std::endl;
@@ -90,7 +82,6 @@ std::vector<std::string> ConverterJSON::GetRequests() {
 	else {
 		std::cout << "Requests file is missing" << std::endl;
 	}
-	std::cout << "\tConverterJSON::GetRequests - finish" << std::endl;
 	return requests;
 }
 
@@ -125,9 +116,9 @@ void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> a
 					currentDocResult["docid"] = it.first;
 					currentDocResult["rank"] = it.second;
 					currentDocResultArray.push_back(currentDocResult);
-					answerDictionary["answers"][requestNumber]["relevance"] = currentDocResultArray;
 					++response;
 				}
+				answerDictionary["answers"][requestNumber]["relevance"] = currentDocResultArray;
 			}
 			else // If the search value is single
 			{
@@ -139,7 +130,12 @@ void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> a
 		++count;
 	}
 	std::ofstream answerFile("answers.json", std::ios_base::trunc);
-	answerFile << answerDictionary;
-	answerFile.close();
-	//std::cout << "\tConverterJSON::putAnswers - finish" << std::endl;
+	if (answerFile.is_open()) {
+		answerFile << answerDictionary.dump(4);
+		answerFile.close();
+	}
+	else {
+		std::cout << "Answers file is missing" << std::endl;
+	}
+	
 }

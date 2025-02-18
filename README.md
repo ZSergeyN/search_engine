@@ -9,11 +9,11 @@
 
 ![](https://img.shields.io/badge/ENG-blue)<br>
  A console application that searches for queries in documents.
-The application is configured using JSON files.<br>
+The application is configured using JSON files or the [control_panel_for_search_engine](https://github.com/ZSergeyN/control_panel_for_search_engine) utility.<br>
 
 ![](https://img.shields.io/badge/RUS-red)<br>
  Консольное приложение, которое выполняет поиск запросов в документах.
-Настройка приложения выполняется с помощью файлов формата JSON.<br>
+Настройка приложения выполняется с помощью файлов формата JSON или утилитой [control_panel_for_search_engine](https://github.com/ZSergeyN/control_panel_for_search_engine).<br>
 
 ## Technologies | Технологии
 ![](https://img.shields.io/badge/C%2B%2B-17-green?style=for-the-badge)<br>

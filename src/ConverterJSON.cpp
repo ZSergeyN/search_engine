@@ -122,7 +122,7 @@ void ConverterJSON::putAnswers(std::vector<std::vector<std::pair<int, float>>> a
 			}
 			else // If the search value is single
 			{
-				answerDictionary["answers"][requestNumber]["docId"] = currentAnswer[0].first;
+				answerDictionary["answers"][requestNumber]["docid"] = currentAnswer[0].first;
 				answerDictionary["answers"][requestNumber]["rank"] = currentAnswer[0].second;
 			}
 			
